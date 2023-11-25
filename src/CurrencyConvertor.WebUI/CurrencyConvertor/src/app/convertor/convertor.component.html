@@ -1,0 +1,10 @@
+<section>
+    <form>
+      <input type="text" placeholder="value to convert" [(ngModel)]="value" name="value">
+      <button class="primary" type="button" (click)="convert()">Convert</button>
+    </form>
+</section>
+
+<section class="results">
+    Result: {{ conversionResult }}
+</section>
