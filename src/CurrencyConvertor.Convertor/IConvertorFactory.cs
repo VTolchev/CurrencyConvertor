@@ -1,6 +1,6 @@
-﻿using CurrencyConvertor.API.Conversion.Convertors;
+﻿using CurrencyConvertor.Conversion.Convertors;
 
-namespace CurrencyConvertor.API.Conversion;
+namespace CurrencyConvertor.Conversion;
 
 public interface IConvertorFactory
 {

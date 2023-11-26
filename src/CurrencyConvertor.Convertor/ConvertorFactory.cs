@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using CurrencyConvertor.API.Conversion.Convertors;
+using CurrencyConvertor.Conversion.Convertors;
 
-namespace CurrencyConvertor.API.Conversion;
+namespace CurrencyConvertor.Conversion;
 
 public class ConvertorFactory : IConvertorFactory
 {
@@ -23,19 +23,19 @@ public class ConvertorFactory : IConvertorFactory
             throw new InvalidOperationException($"Currency is not supported. CurrencyCode: {currencyCode}");
         }
 
-        var currencyInfo = GetCurrencyInfo(currencyCode, languageCode);
-
-        return CreateConvertor(languageCode, currencyInfo);
+        return CreateConvertor(currencyCode, languageCode);
     }
 
-    private static IConvertor CreateConvertor(string languageCode, CurrencyInfo currencyInfo)
+    private static IConvertor CreateConvertor(string currencyCode, string languageCode)
     {
+        var currencyInfo = GetCurrencyInfoEn(currencyCode, languageCode);
+
         return new ConvertorEn(currencyInfo);
     }
 
-    private static CurrencyInfo GetCurrencyInfo(string currencyCode, string languageCode)
+    private static CurrencyInfoEn GetCurrencyInfoEn(string currencyCode, string languageCode)
     {
-        return new CurrencyInfo("dollar", "cent");
+        return new CurrencyInfoEn("dollar", "dollars", "cent", "cents");
     }
 
     private bool IsLanguageSupported(string languageCode)

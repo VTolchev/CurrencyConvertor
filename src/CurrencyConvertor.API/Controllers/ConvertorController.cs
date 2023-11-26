@@ -1,8 +1,8 @@
 using CurrencyConvertor.API.Contract;
-using CurrencyConvertor.API.Conversion;
+using CurrencyConvertor.Conversion;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Tolchev.CurrencyConvertor.API.Controllers
+namespace CurrencyConvertor.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

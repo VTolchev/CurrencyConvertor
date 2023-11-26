@@ -1,7 +1,7 @@
 using System.Globalization;
 using CurrencyConvertor.API;
 
-namespace CurrencyConvertor.API.Conversion;
+namespace CurrencyConvertor.Conversion;
 
 public class CurrencyParser : ICurrencyParser
 {

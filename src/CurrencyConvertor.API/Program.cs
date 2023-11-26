@@ -1,6 +1,5 @@
-using CurrencyConvertor.API.Conversion;
+using CurrencyConvertor.Conversion;
 using NLog.Extensions.Logging;
-using static System.Net.WebRequestMethods;
 
 namespace CurrencyConvertor.API
 {

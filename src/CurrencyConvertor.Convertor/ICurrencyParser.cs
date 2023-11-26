@@ -1,4 +1,4 @@
-namespace CurrencyConvertor.API.Conversion;
+namespace CurrencyConvertor.Conversion;
 
 public interface ICurrencyParser
 {
