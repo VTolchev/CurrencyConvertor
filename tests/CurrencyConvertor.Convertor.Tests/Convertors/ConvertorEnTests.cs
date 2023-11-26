@@ -30,7 +30,7 @@ namespace CurrencyConvertor.Convertor.Tests.Convertors
                 yield return new object[] { 0M, $"zero {currencyPlural}", dollarCurrencyInfoEn };
                 yield return new object[] { 1M, $"one {currency}", dollarCurrencyInfoEn };
                 yield return new object[] { 25.1M, $"twenty-five {currencyPlural} and ten {fractionalPlural}", dollarCurrencyInfoEn };
-                yield return new object[] { 0.01M, $"zero {currencyPlural} and one {currency}", dollarCurrencyInfoEn };
+                yield return new object[] { 0.01M, $"zero {currencyPlural} and one {fractional}", dollarCurrencyInfoEn };
                 yield return new object[] { 45100M, $"forty-five thousand one hundred {currencyPlural}", dollarCurrencyInfoEn };
                 yield return new object[] { 999999999.99M, $"nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine {currencyPlural} and ninety-nine {fractionalPlural}", dollarCurrencyInfoEn };
                 yield return new object[] { 999999000.99M, $"nine hundred ninety-nine million nine hundred ninety-nine thousand {currencyPlural} and ninety-nine {fractionalPlural}", dollarCurrencyInfoEn };
