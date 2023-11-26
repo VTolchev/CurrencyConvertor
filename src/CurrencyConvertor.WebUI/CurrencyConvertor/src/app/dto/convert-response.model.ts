@@ -1,5 +1,5 @@
 export interface ConvertResponse {
-    "OriginalValue": number,
-    "CurrencyCode": string,
-    "ConversionResult": string
+    originalValue: number,
+    currencyCode: string,
+    conversionResult: string
 }
