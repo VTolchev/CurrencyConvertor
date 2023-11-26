@@ -9,6 +9,9 @@ public class ConvertorEn : IConvertor
 
     private const int MAX_GROUP_VALUE = 999;
 
+
+    private const string ZERO = "zero";
+
     private readonly string[] _groupNames = { "", " thousand", " million" };
     private readonly string[] _numbers =
     {
@@ -36,8 +39,8 @@ public class ConvertorEn : IConvertor
 
     private readonly string[] _tens =
     {
-        "",//0
-        "teen",//1
+        "",//0. Not used, but added to fill array item with 0 index.
+        "teen",//1. Not used, but added to fill array item with 1 index.
         "twenty",
         "thirty",
         "forty",
@@ -59,13 +62,43 @@ public class ConvertorEn : IConvertor
 
         var val = 123456789.56M;
 
-        var integralPart = (int)Math.Truncate(value);
         var fractionalPart = (int)((value % 1) * 100);
+
+        ConvertIntegralPart(value, stringBuilder);
+
+        return stringBuilder.ToString();
+    }
+
+    private void ConvertIntegralPart(decimal value, StringBuilder stringBuilder)
+    {
+        var integralPart = (int)Math.Truncate(value);
+
+        if (integralPart == 1)
+        {
+            stringBuilder.Append(_numbers[integralPart]);
+            stringBuilder.Append(' ');
+            stringBuilder.Append(_currencyInfo.Name);
+
+            return;
+        }
+
+        ConvertIntegralValuePart(integralPart, stringBuilder);
+
+        stringBuilder.Append(_currencyInfo.NamePlural);
+    }
+
+    private void ConvertIntegralValuePart(int integralPart, StringBuilder stringBuilder)
+    {
+        if (integralPart == 0)
+        {
+            stringBuilder.Append(ZERO);
+            stringBuilder.Append(' ');
+            return;
+        }
 
         List<int> groups = new();
 
         var rest = integralPart;
-
         while (rest > 0)
         {
             groups.Add(rest % 1000);
@@ -73,13 +106,16 @@ public class ConvertorEn : IConvertor
             rest /= 1000;
         }
 
-        for (int groupIndex = _groupNames.Length - 1; groupIndex >= 0; groupIndex--)
+        if (groups.Count > _groupNames.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(integralPart), integralPart,
+                $"Cannon convert integral value having more than {_groupNames.Length} groups. Actual groups count: {groups.Count}");
+        }
+
+        for (int groupIndex = groups.Count - 1; groupIndex >= 0; groupIndex--)
         {
             ConvertGroup(groups[groupIndex], _groupNames[groupIndex], stringBuilder);
-            stringBuilder.Append(" ");
         }
-        
-        return stringBuilder.ToString();
     }
 
     private void ConvertGroup(int value, string groupName, StringBuilder stringBuilder)
@@ -89,10 +125,7 @@ public class ConvertorEn : IConvertor
             throw new ArgumentOutOfRangeException(nameof(value), value, $"Cannon convert group value greater than {MAX_GROUP_VALUE}");
         }
 
-        if (value == 0)
-        {
-            return;
-        }
+        if (value == 0) return;
 
         var hundreds = value / 100;
 
@@ -102,7 +135,7 @@ public class ConvertorEn : IConvertor
             stringBuilder.Append(" hundred");
         }
 
-        var rest = value / 10;
+        var rest = value % 100;
 
         if (hundreds > 0 && rest > 0)
         {
@@ -119,7 +152,7 @@ public class ConvertorEn : IConvertor
 
             stringBuilder.Append(_tens[tens]);
 
-            rest /= 10;
+            rest = rest % 10;
 
             if (rest > 0)
             {
@@ -128,6 +161,7 @@ public class ConvertorEn : IConvertor
             }
         }
 
-        stringBuilder.Append(groupName);
+        stringBuilder.Append(groupName); 
+        stringBuilder.Append(' ');
     }
 }
