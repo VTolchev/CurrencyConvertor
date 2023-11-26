@@ -7,7 +7,46 @@ public class ConvertorEn : IConvertor
 {
     private readonly CurrencyInfoEn _currencyInfo;
 
-    private readonly string[] _groupNames = { "", "thousand", "million" };
+    private const int MAX_GROUP_VALUE = 999;
+
+    private readonly string[] _groupNames = { "", " thousand", " million" };
+    private readonly string[] _numbers =
+    {
+        "",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven",
+        "twelve",
+        "thirteen",
+        "fourteen",
+        "fifteen",
+        "sixteen",
+        "seventeen",
+        "eighteen",
+        "nineteen"
+    };
+
+    private readonly string[] _tens =
+    {
+        "",//0
+        "teen",//1
+        "twenty",
+        "thirty",
+        "forty",
+        "fifty",
+        "sixty",
+        "seventy",
+        "eighty",
+        "ninety"
+    };
 
     public ConvertorEn(CurrencyInfoEn currencyInfo)
     {
@@ -34,8 +73,61 @@ public class ConvertorEn : IConvertor
             rest /= 1000;
         }
 
-        stringBuilder.Append(
-            $"nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine {_currencyInfo.Name}s and ninety-nine {_currencyInfo.FractionalName}s");
+        for (int groupIndex = _groupNames.Length - 1; groupIndex >= 0; groupIndex--)
+        {
+            ConvertGroup(groups[groupIndex], _groupNames[groupIndex], stringBuilder);
+            stringBuilder.Append(" ");
+        }
+        
         return stringBuilder.ToString();
+    }
+
+    private void ConvertGroup(int value, string groupName, StringBuilder stringBuilder)
+    {
+        if (value > MAX_GROUP_VALUE)
+        {
+            throw new ArgumentOutOfRangeException(nameof(value), value, $"Cannon convert group value greater than {MAX_GROUP_VALUE}");
+        }
+
+        if (value == 0)
+        {
+            return;
+        }
+
+        var hundreds = value / 100;
+
+        if (hundreds > 0)
+        {
+            stringBuilder.Append(_numbers[hundreds]);
+            stringBuilder.Append(" hundred");
+        }
+
+        var rest = value / 10;
+
+        if (hundreds > 0 && rest > 0)
+        {
+            stringBuilder.Append(" ");
+        }
+
+        if (rest > 0 && rest < 20)
+        {
+            stringBuilder.Append(_numbers[rest]);
+        }
+        else
+        {
+            var tens = rest / 10;
+
+            stringBuilder.Append(_tens[tens]);
+
+            rest /= 10;
+
+            if (rest > 0)
+            {
+                stringBuilder.Append("-");
+                stringBuilder.Append(_numbers[rest]);
+            }
+        }
+
+        stringBuilder.Append(groupName);
     }
 }
