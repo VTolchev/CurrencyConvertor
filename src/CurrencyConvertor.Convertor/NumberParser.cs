@@ -1,17 +1,14 @@
 using System.Globalization;
-using CurrencyConvertor.API;
 
 namespace CurrencyConvertor.Conversion;
 
-public class CurrencyParser : ICurrencyParser
+public class NumberParser : INumberParser
 {
     private readonly CultureInfo _cultureInfo;
-    private readonly decimal _maximumValue;
 
-    public CurrencyParser(string decimalSeparator, decimal maximumValue)
+    public NumberParser(string decimalSeparator)
     {
         if (string.IsNullOrWhiteSpace(decimalSeparator)) throw new ArgumentNullException(nameof(decimalSeparator));
-        _maximumValue = maximumValue;
 
         CultureInfo culture = GetCulture(decimalSeparator);
 
@@ -32,7 +29,7 @@ public class CurrencyParser : ICurrencyParser
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"><paramref name="input"/> is null.</exception>
     /// <exception cref="ConvertorException"><paramref name="input"/> is not in the correct format. or greater than maximum supported value</exception>
-    public decimal ParseValue(string input)
+    public decimal ParseDecimal(string input)
     {
         if (string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
 
@@ -45,11 +42,6 @@ public class CurrencyParser : ICurrencyParser
         catch (Exception e)
         {
             throw new ConvertorException($"Cannot parse value. Value: {input}", e);
-        }
-
-        if (result > _maximumValue)
-        {
-            throw new ConvertorException($"Input value greater that maximum supported value. InputValue: {input}, MaximumValue: {_maximumValue}");
         }
 
         return result;

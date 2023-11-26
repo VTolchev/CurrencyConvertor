@@ -72,6 +72,7 @@ public class ConvertorEn : IConvertor
 
         ConvertIntegralValue(integralPart, _currencyInfo.Name, _currencyInfo.NamePlural, stringBuilder);
     }
+
     private void ConvertFractionalPart(decimal value, StringBuilder stringBuilder)
     {
         var fractionalPart = (int)((value % 1) * 100);
@@ -94,12 +95,12 @@ public class ConvertorEn : IConvertor
             return;
         }
 
-        ConvertIntegralValue(integralPart, stringBuilder);
+        ConvertIntegralNumberValue(integralPart, stringBuilder);
 
         stringBuilder.Append(namePlural);
     }
 
-    private void ConvertIntegralValue(int integralPart, StringBuilder stringBuilder)
+    private void ConvertIntegralNumberValue(int integralPart, StringBuilder stringBuilder)
     {
         if (integralPart == 0)
         {

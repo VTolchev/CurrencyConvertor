@@ -25,8 +25,11 @@ export class ConvertorComponent {
       },
       error: (err: any) => {
         console.error(err);
+        this.conversionResult = err.message;
       }
     };
+
+    //todo: validate input
 
     const request: ConvertRequest =
     {

@@ -1,4 +1,4 @@
-﻿namespace CurrencyConvertor.API;
+﻿namespace CurrencyConvertor.Conversion;
 
 public class ConvertorException : Exception
 {

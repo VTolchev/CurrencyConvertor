@@ -32,7 +32,7 @@ namespace CurrencyConvertor.API
             });
 
             builder.Services.AddSingleton<IConvertorFactory, ConvertorFactory>();
-            builder.Services.AddSingleton<ICurrencyParser>(new CurrencyParser(",", 999999999.99M));
+            builder.Services.AddSingleton<INumberParser>(new NumberParser(","));
 
             var app = builder.Build();
 
@@ -51,11 +51,6 @@ namespace CurrencyConvertor.API
             app.UseCors(corsPolicyName);
 
             app.Run();
-        }
-
-        private static bool IsOriginAllowed(string origin)
-        {
-            return "http://localhost:4200/".Equals(origin);
         }
     }
 }
