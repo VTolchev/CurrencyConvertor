@@ -8,7 +8,7 @@ namespace CurrencyConvertor.Convertor.Tests.Convertors
     {
         [TestCaseSource(nameof(ConvertToWordTestCases))]
         public void ConvertToWord(decimal value, string expectedWord, CurrencyInfoEn currencyInfo)
-        {
+        { 
             var convertor = new ConvertorEn(currencyInfo);
 
             var actual = convertor.ConvertToWord(value);
@@ -33,6 +33,7 @@ namespace CurrencyConvertor.Convertor.Tests.Convertors
                 yield return new object[] { 0.01M, $"zero {currencyPlural} and one {currency}", dollarCurrencyInfoEn };
                 yield return new object[] { 45100M, $"forty-five thousand one hundred {currencyPlural}", dollarCurrencyInfoEn };
                 yield return new object[] { 999999999.99M, $"nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine {currencyPlural} and ninety-nine {fractionalPlural}", dollarCurrencyInfoEn };
+                yield return new object[] { 213456789.12M, $"Two hundred thirteen million four hundred fifty-six thousand seven hundred eighty-nine {currencyPlural} and twelve {fractionalPlural}", dollarCurrencyInfoEn };
             }
         }
     }
