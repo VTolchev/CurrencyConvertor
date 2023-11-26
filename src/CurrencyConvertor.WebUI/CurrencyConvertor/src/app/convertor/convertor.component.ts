@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConvertorService } from './convertor.service';
 import { FormsModule } from '@angular/forms';
+import { ConvertResponse } from '../dto/convert-response.model';
+import { ConvertRequest } from '../dto/convert-request.model';
 
 @Component({
   selector: 'app-convertor',
@@ -16,9 +18,23 @@ export class ConvertorComponent {
   value: string = '';
   conversionResult : string = '';
 
-  convert( ) {
-    this.conversionResult = "Conversion result";
-    return "Conversion result";
+  convert() {
+    const observer = {
+      next: (response: ConvertResponse) => {
+        this.conversionResult = response.conversionResult ;
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    };
+
+    const request: ConvertRequest =
+    {
+      currencyCode: "USD",
+      languageCode: "en",
+      value: this.value
+    }
+
+    this.convertorService.convert(request).subscribe(observer);
   }
-    
 }

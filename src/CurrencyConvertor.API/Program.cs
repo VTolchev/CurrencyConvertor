@@ -1,4 +1,5 @@
 using NLog.Extensions.Logging;
+using static System.Net.WebRequestMethods;
 
 namespace CurrencyConvertor.API
 {
@@ -19,6 +20,17 @@ namespace CurrencyConvertor.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            var corsPolicyName = "AllowConvertorUI";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(corsPolicyName,
+                    builder => builder
+                        .AllowAnyOrigin() //TODO Configure only WebUI app host for PROD environment
+                        //for example .WithOrigins("http://prod.domain:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -31,10 +43,16 @@ namespace CurrencyConvertor.API
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
+            app.UseCors(corsPolicyName);
+
             app.Run();
+        }
+
+        private static bool IsOriginAllowed(string origin)
+        {
+            return "http://localhost:4200/".Equals(origin);
         }
     }
 }

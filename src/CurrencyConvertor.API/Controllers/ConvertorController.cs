@@ -15,14 +15,19 @@ namespace Tolchev.CurrencyConvertor.API.Controllers
         }
 
         [HttpPost("convert", Name = "ConvertToWords")]
-        public ConvertResponse ConvertToWords([FromBody] ConvertRequest convertRequest)
+        public async Task<ActionResult<ConvertResponse>> ConvertToWords([FromBody] ConvertRequest convertRequest)
         {
-            return new ConvertResponse()
+            var response =  new ConvertResponse()
             {
                 CurrencyCode = convertRequest.CurrencyCode,
                 OriginalValue = convertRequest.Value,
-                ConversionResult = "nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine dollars and ninety-nine cents",
+                ConversionResult =
+                    "nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine dollars and ninety-nine cents",
             };
+
+            return response;
         }
+
+ 
     }
 }
