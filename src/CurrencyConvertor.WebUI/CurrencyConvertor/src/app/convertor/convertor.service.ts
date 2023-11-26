@@ -14,6 +14,8 @@ export class ConvertorService {
 
   convert(request: ConvertRequest): Observable<ConvertResponse> {
     var url = environment.apiUrl + "convertor/convert/";
+    
+    //todo: retry on specific error codes (for example: 408, 502-504)
     return this.http.post<ConvertResponse>(url, request);
   }
 }

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using CurrencyConvertor.Conversion.Convertors;
+﻿using CurrencyConvertor.Conversion.Convertors;
 
 namespace CurrencyConvertor.Conversion;
 
