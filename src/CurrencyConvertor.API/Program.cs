@@ -1,3 +1,4 @@
+using CurrencyConvertor.API.Conversion;
 using NLog.Extensions.Logging;
 using static System.Net.WebRequestMethods;
 
@@ -30,6 +31,9 @@ namespace CurrencyConvertor.API
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
+
+            builder.Services.AddSingleton<IConvertorFactory, ConvertorFactory>();
+            builder.Services.AddSingleton<ICurrencyParser>(new CurrencyParser(",", 999999999.99M));
 
             var app = builder.Build();
 
